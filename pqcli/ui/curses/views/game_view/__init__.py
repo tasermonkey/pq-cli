@@ -8,11 +8,13 @@ from pqcli.roster import Roster
 from pqcli.ui.curses.event_handler import EventHandler
 from pqcli.ui.curses.util import (
     KEYS_CANCEL,
-    KEYS_CYCLE,
+    KEYS_GV_CYCLE,
     KEYS_DOWN,
     KEYS_LEFT,
     KEYS_RIGHT,
     KEYS_UP,
+    KEYS_PPAGE,
+    KEYS_NPAGE
 )
 from pqcli.ui.curses.views.base_view import BaseView
 from pqcli.ui.curses.widgets import Focusable, Scrollable, Widget
@@ -50,15 +52,15 @@ class GameView(BaseView):
         if key in KEYS_CANCEL:
             self.on_exit()
 
-        elif key in {curses.KEY_PPAGE}:
+        elif key in KEYS_PPAGE:
             if hasattr(focused, "scroll_page_up"):
                 focused.scroll_page_up()
 
-        elif key in {curses.KEY_NPAGE}:
+        elif key in KEYS_NPAGE:
             if hasattr(focused, "scroll_page_down"):
                 focused.scroll_page_down()
 
-        elif key in KEYS_CYCLE:
+        elif key in KEYS_GV_CYCLE:
             if focused == self._char_sheet_win:
                 self.focus(self._spell_book_win)
             elif focused == self._spell_book_win:
