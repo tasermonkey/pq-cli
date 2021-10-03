@@ -63,7 +63,7 @@ class ProgressBarWindow(WindowWrapper):
                 curses.ACS_LRCORNER,
             )
 
-            text = self._progress_title
+            text = self.titleText(self._progress_title)
             x = max(0, (self.getmaxyx()[1] - len(text)) // 2)
             self._progress_bar_win.addnstr(
                 0,
@@ -101,12 +101,12 @@ class DataTableProgressBarWindow(ProgressBarWindow):
     def _render_data_table(self) -> None:
         if not self._win:
             return
-
         with Focusable.focus_standout(self, self._win):
             self._win.box()
-            x = max(0, (self.getmaxyx()[1] - len(self._title)) // 2)
+            text = self.titleText(self._title)
+            x = max(0, (self.getmaxyx()[1] - len(text)) // 2)
             self._win.addnstr(
-                0, x, self._title, min(len(self._title), self.getmaxyx()[1])
+                0, x, text, min(len(text), self.getmaxyx()[1])
             )
 
         self._win.noutrefresh()
@@ -143,8 +143,9 @@ class ListBoxProgressBarWindow(ProgressBarWindow):
         with Focusable.focus_standout(self, self._win):
             self._win.box()
             x = max(0, (self.getmaxyx()[1] - len(self._title)) // 2)
+            titled = self.titleText(self._title)
             self._win.addnstr(
-                0, x, self._title, min(len(self._title), self.getmaxyx()[1])
+                0, x, titled, min(len(self._title), self.getmaxyx()[1])
             )
 
         self._win.noutrefresh()

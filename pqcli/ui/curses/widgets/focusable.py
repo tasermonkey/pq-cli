@@ -40,3 +40,8 @@ class Focusable:
     def focus_standout(self, win: T.Any) -> T.Generator:
         with focus_standout(self._focused, win):
             yield
+
+    def titleText(self, str: str) -> str:
+        if (self._focused):
+            return str + "*"
+        return str

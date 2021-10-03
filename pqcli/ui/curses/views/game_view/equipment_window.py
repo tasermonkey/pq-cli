@@ -51,9 +51,9 @@ class EquipmentWindow(Focusable, WindowWrapper):
 
         with self.focus_standout(self._win):
             self._win.box()
-            text = " Equipment "
-            x = max(0, (self.getmaxyx()[1] - len(text)) // 2)
-            self._win.addnstr(0, x, text, min(len(text), self.getmaxyx()[1]))
+            titled = " " + self.titleText("Equipment") + " "
+            x = max(0, (self.getmaxyx()[1] - len(titled)) // 2)
+            self._win.addnstr(0, x, titled, min(len(titled), self.getmaxyx()[1]))
 
         self._win.noutrefresh()
         self._data_table.render()

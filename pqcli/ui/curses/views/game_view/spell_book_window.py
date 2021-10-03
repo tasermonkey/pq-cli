@@ -60,7 +60,7 @@ class SpellBookWindow(Focusable, WindowWrapper):
 
         with self.focus_standout(self._win):
             self._win.box()
-            text = " Spell Book "
+            text = " " + self.titleText("Spell Book") + " "
             x = max(0, (self.getmaxyx()[1] - len(text)) // 2)
             self._win.addnstr(0, x, text, min(len(text), self.getmaxyx()[1]))
 
