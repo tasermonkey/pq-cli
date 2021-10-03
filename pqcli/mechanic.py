@@ -351,7 +351,7 @@ class Player(SignalMixin):
         self.emit("new_task")
 
     def equip_price(self) -> int:
-        return 5 * (self.level ** 2) + 10 * self.level + 20
+        return 5 * (self.level ** 2) + 10 * min(1, self.level + 2 - math.floor(self.stats[StatType.charisma]/4)) + 20
 
     def level_up(self) -> None:
         self.level += 1
@@ -523,20 +523,24 @@ class Simulation:
     def dequeue(self) -> None:
         while self.player.task_bar.done:
             if isinstance(self.player.task, KillTask):
+                isLucky = random.odds(1, (100 + self.player.level * 3) - self.player.stats[StatType.dexterity])
                 if (
                     self.player.task.monster is None
                     or self.player.task.monster.item is None
                 ):
                     # npc
                     self.player.win_item()
+                    if isLucky:
+                        self.player.win_item()
                 elif self.player.task.monster.item:
+                    amount = 3 if isLucky else 1
                     self.player.inventory.add(
                         (
                             self.player.task.monster.name
                             + " "
                             + self.player.task.monster.item
                         ).lower(),
-                        1,
+                        amount,
                     )
 
             elif isinstance(self.player.task, BuyTask):
@@ -550,7 +554,7 @@ class Simulation:
                     amount = item.quantity * self.player.level
                     if " of " in item.name:
                         amount *= (1 + random.below_low(10)) * (
-                            1 + random.below_low(self.player.level)
+                            1 + random.below_low(min(1, self.player.level - 3 + math.floor(self.player.stats[StatType.charisma]/4)))
                         )
                     self.player.inventory.pop(0)
                     self.player.inventory.add_gold(amount)
