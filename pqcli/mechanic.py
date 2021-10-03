@@ -449,12 +449,14 @@ class Player(SignalMixin):
 
 
 class Simulation:
-    def __init__(self, player: Player) -> None:
+    def __init__(self, player: Player, rate: int) -> None:
         self.player = player
+        self.rate = rate
         self.last_tick = datetime.datetime.now()
 
     def tick(self, elapsed: float = 100.0) -> None:
-        self.player.elapsed += elapsed
+        tick_elapsed = elapsed * self.rate
+        self.player.elapsed += tick_elapsed
 
         if self.player.task is None:
             self.player.set_task(RegularTask("Loading", 2000))
@@ -484,7 +486,7 @@ class Simulation:
             return
 
         if not self.player.task_bar.done:
-            self.player.task_bar.increment(elapsed)
+            self.player.task_bar.increment(tick_elapsed)
             return
 
         # gain XP / level up

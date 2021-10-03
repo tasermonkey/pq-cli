@@ -17,7 +17,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(prog="pqcli")
 
     group = parser.add_mutually_exclusive_group()
-    group.set_defaults(ui=CursesUserInterface)
+    group.set_defaults(ui=CursesUserInterface, rate=1)
     group.add_argument(
         "--basic",
         dest="ui",
@@ -54,6 +54,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--load-save",
+        type=int,
+        metavar="NUM",
+        help="play chosen character",
+    )
+    parser.add_argument(
+        "--rate",
         type=int,
         metavar="NUM",
         help="play chosen character",

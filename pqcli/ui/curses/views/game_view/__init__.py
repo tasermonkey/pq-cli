@@ -41,7 +41,7 @@ class GameView(BaseView):
         self._player = player
         self._args = args
 
-        self._simulation = Simulation(player)
+        self._simulation = Simulation(player, args.rate)
         self._last_tick = datetime.datetime.now()
 
     def keypress(self, key: int) -> None:
